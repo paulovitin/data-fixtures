@@ -22,6 +22,7 @@ namespace Doctrine\Common\DataFixtures\Purger;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Internal\CommitOrderCalculator;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\DefaultQuoteStrategy;
 
 /**
  * Class responsible for purging databases of data before reloading data fixtures.
@@ -123,9 +124,9 @@ class ORMPurger implements PurgerInterface
                 || $class->isMappedSuperclass) {
                 continue;
             }
-
-            $orderedTables[] = $class->getQuotedTableName($platform);
-        }
+            
+            $default_strategy = new DefaultQuoteStrategy();
+            $orderedTables[] = $default_strategy->getTableName($class, $platform);
 
         foreach($orderedTables as $tbl) {
             if ($this->purgeMode === self::PURGE_MODE_DELETE) {
