@@ -127,6 +127,7 @@ class ORMPurger implements PurgerInterface
             
             $default_strategy = new DefaultQuoteStrategy();
             $orderedTables[] = $default_strategy->getTableName($class, $platform);
+        }
 
         foreach($orderedTables as $tbl) {
             if ($this->purgeMode === self::PURGE_MODE_DELETE) {
